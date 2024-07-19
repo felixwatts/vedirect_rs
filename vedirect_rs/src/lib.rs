@@ -16,7 +16,7 @@ use crate::nom_parse::parse_block;
 use crate::ve_direct_parsing::block_to_vedirect;
 
 
-pub fn extract_blocks(input: &[u8]) -> Result<Vec<Block>, ExtractError> {
+fn extract_blocks(input: &[u8]) -> Result<Vec<Block>, ExtractError> {
     let (adj_input, _) = match take_until::<_, _, nom::error::Error<&[u8]>>("\r\n".as_bytes())(input) {
         Ok((a, b)) => (a, b),
         Err(e) => {
@@ -41,6 +41,13 @@ pub fn extract_blocks(input: &[u8]) -> Result<Vec<Block>, ExtractError> {
     }
 }
 
+/// This function handles converting the input string into properly-checksummed data blocks.
+///
+/// # Arguments
+/// * `input` - A slice of bytes to process into one-or-more data blocks.
+///
+/// # Returns
+/// * Result of either a Vec of blocks, or, an ExtractError
 pub fn get_vedirect_data(input: &[u8]) -> Result<Vec<VEDirectBlock>, ExtractError> {
     let mut ve_direct_blocks: Vec<VEDirectBlock> = vec![];
     let blocks = match extract_blocks(input) {
