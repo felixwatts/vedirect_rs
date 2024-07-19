@@ -3,6 +3,9 @@ use nom::multi::many0;
 use nom::sequence::{pair, preceded, separated_pair};
 use nom::IResult;
 use std::str;
+use nom::Err;
+use nom::error::Error;
+use crate::enums::ExtractError;
 
 #[derive(Debug)]
 pub struct Block {
@@ -14,7 +17,16 @@ pub fn parse_block(input: &[u8]) -> IResult<&[u8], Vec<Block>> {
     let mut temp_vec: Vec<(Vec<u8>, Vec<u8>)> = vec![];
     let mut blocks: Vec<Block> = vec![];
 
-    let (rest, (kvs, checksum)) = pair(parse_kvs, parse_checksum)(input)?;
+    let (rest, (kvs, checksum)) = match pair(parse_kvs, parse_checksum)(input) {
+        Ok((a, (b,c))) => (a,(b,c)),
+        Err(e) => {
+            match e {
+                Err::Incomplete(ref inc) => { warn!("incomplete: {inc:#?}"); return Err(e);},
+                Err::Error(ref err) => { warn!("Error: {err:#?}"); return Err(e);}
+                Err::Failure(ref fail) => { warn!("Failure: {fail:#?}"); return Err(e);}
+            }
+        }
+    };
 
     // separate kvs into actual blocks and checksum them
     for (idx, (k, v)) in kvs.iter().enumerate() {

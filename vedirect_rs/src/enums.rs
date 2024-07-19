@@ -85,4 +85,6 @@ pub enum ExtractError {
     NoMatch,
     #[error("general failure")]
     Failure,
+    #[error("extract-error-passthrough: {0}")]
+    PassThrough(String)
 }
