@@ -31,7 +31,6 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     let mut buffer = [0; 1024];
     loop {
-        info!("circular buffer is size {}", circle.len());
         let read = port.read(&mut buffer);
         for i in buffer.iter() {
             if *i != 0 {

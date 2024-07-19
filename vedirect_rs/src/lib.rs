@@ -29,11 +29,9 @@ pub fn extract_blocks(input: &[u8]) -> Result<Vec<Block>, ExtractError> {
     };
     match parse_block(adj_input) {
         Ok((_, o)) => {
-            debug!("Parse worked for {adj_input:#?}");
             return Ok(o);
         }
         Err(e) => {
-            //debug!("Parse failed for {adj_input:#?}");
             match e {
                 Err::Incomplete(_) => { return Err(ExtractError::Incomplete); }
                 Err::Error(_ee) => { return Err(ExtractError::NoMatch); }
