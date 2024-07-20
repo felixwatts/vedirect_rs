@@ -21,9 +21,9 @@ fn extract_blocks(input: &[u8]) -> Result<Vec<Block>, ExtractError> {
         Ok((a, b)) => (a, b),
         Err(e) => {
             match e {
-                Err::Incomplete(ref ee) => { return Err(ExtractError::Incomplete); }
-                Err::Error(ref err) => { return Err(ExtractError::NoMatch); }
-                Err::Failure(ref fail) => { return Err(ExtractError::Failure); }
+                Err::Incomplete(_) => { return Err(ExtractError::Incomplete); }
+                Err::Error(_) => { return Err(ExtractError::NoMatch); }
+                Err::Failure(_) => { return Err(ExtractError::Failure); }
             }
         }
     };
