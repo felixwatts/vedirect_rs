@@ -3,7 +3,7 @@ use num_derive::FromPrimitive;
 use thiserror::Error;
 use strum::Display as StrumDisplay;
 use serde::Serialize;
-#[derive(Default, StrumDisplay, FromPrimitive, Debug, Serialize, Reflect)]
+#[derive(Default, StrumDisplay, FromPrimitive, Debug, Serialize, Reflect, Clone)]
 pub enum ConverterState {
     #[default]
     Off = 0,
@@ -22,7 +22,7 @@ pub enum ConverterState {
     BatterySafe = 248,
     ExternalControl = 252
 }
-#[derive(Default, StrumDisplay, FromPrimitive, Debug, Serialize, Reflect)]
+#[derive(Default, StrumDisplay, FromPrimitive, Debug, Serialize, Reflect, Clone)]
 pub enum ErrorState {
     #[default]
     NoError = 0,
@@ -47,7 +47,7 @@ pub enum ErrorState {
     UserSettingsInvalid = 119
 }
 
-#[derive(Default,StrumDisplay,FromPrimitive, Serialize, Reflect)]
+#[derive(Default,StrumDisplay,FromPrimitive, Serialize, Reflect, Clone)]
 pub enum ModeState {
     Charger = 1,
     Inverter = 2,
@@ -57,7 +57,7 @@ pub enum ModeState {
     Hibernate = 253
 }
 
-#[derive(Default, StrumDisplay, FromPrimitive, Debug, Serialize, Reflect)]
+#[derive(Default, StrumDisplay, FromPrimitive, Debug, Serialize, Reflect, Clone)]
 pub enum OffReason {
     #[default]
     NoValue = 0x0,
@@ -71,7 +71,7 @@ pub enum OffReason {
     EngineShutdownDetection = 0x80,
     AnalysingInputVoltage = 0x100
 }
-#[derive(Default, StrumDisplay, FromPrimitive, Debug, Serialize, Reflect)]
+#[derive(Default, StrumDisplay, FromPrimitive, Debug, Serialize, Reflect, Clone)]
 pub enum TrackerOperationMode {
     #[default]
     Off = 0,

@@ -1,7 +1,7 @@
 use bevy_reflect::Reflect;
 use crate::enums::{ConverterState, ErrorState, OffReason, TrackerOperationMode};
 use serde::Serialize;
-#[derive(Default,Debug, Serialize, Reflect)]
+#[derive(Default,Debug, Serialize, Reflect, Clone)]
 pub struct VEDirectBlock {
     pub pid: String,
     pub fw: String,
