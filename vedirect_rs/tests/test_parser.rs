@@ -30,9 +30,7 @@ fn test_lib_block_grabber_stream() {
         Ok(b) => { assert_eq!(b.len(),11); }
         Err(e) => {
             match e {
-                ExtractError::Incomplete => { println!("{e:#?}") }
-                ExtractError::NoMatch => { println!("{e:#?}") }
-                ExtractError::Failure => { println!("{e:#?}") }
+                _ => {println!("{e:#?}")}
             }
         }
     }
@@ -45,9 +43,7 @@ fn test_lib_block_grabber_single_block() {
         Ok(b) => { assert_eq!(b.len(), 1); }
         Err(e) => {
             match e {
-                ExtractError::Incomplete => { println!("{e:#?}") }
-                ExtractError::NoMatch => { println!("{e:#?}") }
-                ExtractError::Failure => { println!("{e:#?}") }
+                _ => {println!("{e:#?}")}
             }
         }
     }
