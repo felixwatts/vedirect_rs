@@ -2,6 +2,9 @@
 name = "vedirect_rs"
 version = "0.1.0"
 edition = "2021"
+description = "Parse Victron VE.Direct serial output to a well-formed struct"
+license = "MIT"
+repository = "https://github.com/PeterGrace/vedirect_rs.git"
 
 [lib]
 name = "vedirect_rs"
