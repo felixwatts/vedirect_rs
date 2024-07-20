@@ -10,7 +10,6 @@ use crate::structs::VEDirectBlock;
 use nom::bytes::streaming::take_until;
 use nom_parse::Block;
 use nom::Err;
-use nom::error::Error;
 use crate::enums::ExtractError;
 use crate::nom_parse::parse_block;
 use crate::ve_direct_parsing::block_to_vedirect;

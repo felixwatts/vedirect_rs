@@ -4,8 +4,6 @@ use nom::sequence::{pair, preceded, separated_pair};
 use nom::IResult;
 use std::str;
 use nom::Err;
-use nom::error::Error;
-use crate::enums::ExtractError;
 
 #[derive(Debug)]
 pub struct Block {
