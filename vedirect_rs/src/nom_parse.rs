@@ -19,9 +19,9 @@ pub fn parse_block(input: &[u8]) -> IResult<&[u8], Vec<Block>> {
         Ok((a, (b,c))) => (a,(b,c)),
         Err(e) => {
             match e {
-                Err::Incomplete(ref inc) => { return Err(e);},
-                Err::Error(ref err) => {  return Err(e);}
-                Err::Failure(ref fail) => {return Err(e);}
+                Err::Incomplete(_) => { return Err(e);},
+                Err::Error(_) => {  return Err(e);}
+                Err::Failure(_) => {return Err(e);}
             }
         }
     };

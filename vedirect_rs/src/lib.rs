@@ -51,7 +51,7 @@ pub fn get_vedirect_data(input: &[u8]) -> Result<Vec<VEDirectBlock>, ExtractErro
     let mut ve_direct_blocks: Vec<VEDirectBlock> = vec![];
     let blocks = match extract_blocks(input) {
         Ok(b) => b,
-        Err(e) => {
+        Err(_) => {
             //warn!("no blocks found in input data on this call: {e}");
             return Err(ExtractError::NoMatch);
         }

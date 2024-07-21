@@ -17,7 +17,7 @@ pub fn block_to_vedirect(block: &Block) -> VEDirectBlock {
         let value_name: &str;
         match str::from_utf8(v.as_slice()) {
             Ok(v) => value_name = v,
-            Err(e) => {
+            Err(_) => {
                 continue;
             }
         };

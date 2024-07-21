@@ -4,7 +4,6 @@ extern crate tracing;
 use std::io::Read;
 use std::{thread, time};
 use std::error::Error;
-use std::time::Duration;
 use circular_buffer::CircularBuffer;
 use serial::prelude::*;
 use tracing_subscriber::EnvFilter;
