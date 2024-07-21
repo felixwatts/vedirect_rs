@@ -1,6 +1,6 @@
 [package]
 name = "vedirect_rs"
-version = "0.2.1"
+version = "0.2.2"
 edition = "2021"
 description = "Parse Victron VE.Direct serial output to a well-formed struct"
 license = "MIT"
