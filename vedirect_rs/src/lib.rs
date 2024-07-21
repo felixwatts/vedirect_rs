@@ -52,7 +52,7 @@ pub fn get_vedirect_data(input: &[u8]) -> Result<Vec<VEDirectBlock>, ExtractErro
     let blocks = match extract_blocks(input) {
         Ok(b) => b,
         Err(e) => {
-            warn!("no blocks found in input data on this call: {e}");
+            //warn!("no blocks found in input data on this call: {e}");
             return Err(ExtractError::NoMatch);
         }
     };

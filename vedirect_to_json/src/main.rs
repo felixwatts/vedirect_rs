@@ -18,7 +18,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         .with_line_number(true)
         .init();
 
-    let mut circle = CircularBuffer::<1024, u8>::new();
+    let mut circle = CircularBuffer::<4096, u8>::new();
     let mut port = serial::open("/dev/ttyUSB0")?;
     port.reconfigure(&|settings| {
         settings.set_baud_rate(serial::Baud19200)?;
@@ -29,7 +29,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         Ok(())
     })?;
 
-    let mut buffer = [0; 1024];
+    let mut buffer = [0; 256];
     loop {
         let read = port.read(&mut buffer);
         for i in buffer.iter() {
@@ -40,15 +40,14 @@ fn main() -> Result<(), Box<dyn Error>> {
         let stream = circle.make_contiguous();
         let blocks = match get_vedirect_data(stream) {
             Ok(o) => {
+                circle.clear();
                 o
             }
-            Err(e) => {
-                //error!("Error on getting vedirect data: {e}");
+            Err(_) => {
                 vec![]
             }
         };
-        circle.clear();
         println!("{}", serde_json::to_string(&blocks).unwrap());
-        thread::sleep(time::Duration::from_millis(1000));
+        thread::sleep(time::Duration::from_millis(150));
     }
 }

@@ -14,7 +14,13 @@ pub fn block_to_vedirect(block: &Block) -> VEDirectBlock {
             // and its value_name is *not* guaranteed to be ascii, so we will bail out here.
             return data;
         }
-        let value_name = str::from_utf8(v.as_slice()).unwrap();
+        let value_name: &str;
+        match str::from_utf8(v.as_slice()) {
+            Ok(v) => value_name = v,
+            Err(e) => {
+                continue;
+            }
+        };
         match key_name {
             "V" => { data.battery_volts = value_name.parse::<i32>().unwrap_or(0) as f32 / 1000.0 }
             "V2" => { unimplemented!() }

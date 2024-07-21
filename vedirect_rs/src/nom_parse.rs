@@ -19,16 +19,22 @@ pub fn parse_block(input: &[u8]) -> IResult<&[u8], Vec<Block>> {
         Ok((a, (b,c))) => (a,(b,c)),
         Err(e) => {
             match e {
-                Err::Incomplete(ref inc) => { warn!("incomplete: {inc:#?}"); return Err(e);},
-                Err::Error(ref err) => { warn!("Error: {err:#?}"); return Err(e);}
-                Err::Failure(ref fail) => { warn!("Failure: {fail:#?}"); return Err(e);}
+                Err::Incomplete(ref inc) => { return Err(e);},
+                Err::Error(ref err) => {  return Err(e);}
+                Err::Failure(ref fail) => {return Err(e);}
             }
         }
     };
 
     // separate kvs into actual blocks and checksum them
     for (idx, (k, v)) in kvs.iter().enumerate() {
-        let k_str = str::from_utf8(k.as_slice()).unwrap();
+        let k_str: &str;
+        match str::from_utf8(k.as_slice()) {
+            Ok(k) => k_str = k,
+            Err(_) => {
+                continue;
+            }
+        };
         // first we add a \r and an \n
         checksum_calc = checksum_calc + 13_u32 + 10_u32;
 
@@ -53,7 +59,7 @@ pub fn parse_block(input: &[u8]) -> IResult<&[u8], Vec<Block>> {
                 temp_vec.clear();
                 continue;
             } else {
-                warn!("checksum did not match: {checksum_check} should be 0");
+                debug!("checksum did not match: {checksum_check} should be 0");
                 temp_vec.clear();
                 checksum_calc = 0;
                 continue;
@@ -66,7 +72,7 @@ pub fn parse_block(input: &[u8]) -> IResult<&[u8], Vec<Block>> {
                 temp_vec.clear();
                 continue;
             } else {
-                warn!("checksum did not match: {checksum_check} should be 0");
+                debug!("checksum did not match: {checksum_check} should be 0");
                 temp_vec.clear();
                 checksum_calc = 0;
                 continue;
