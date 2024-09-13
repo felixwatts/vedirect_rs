@@ -49,14 +49,22 @@ pub fn block_to_vedirect(block: &Block) -> VEDirectBlock {
             "SOC" => { unimplemented!() }
             "TTG" => { unimplemented!() }
             "Alarm" => { unimplemented!() }
-            "Relay" => { unimplemented!() }
-            "AR" => { unimplemented!() }
+            "Relay" => {
+                if value_name == "ON" {
+                    data.relay_state = true;
+                } else {
+                    data.relay_state = false;
+                }
+            }
+            "AR" => { 
+                data.alarm_reason = value_name.parse::<u32>().unwrap_or_default().into();
+             }
             "OR" => {
                 let val = u8::from_str_radix(&value_name, 16).unwrap_or(0);
                 let or = num::FromPrimitive::from_u8(val);
                 match or {
                     Some(state) => data.off_reason = state,
-                    None => error!("Error converting error to value.")
+                    None => error!("Error converting OR to value.")
                 }
             }
             "H1" => { unimplemented!() }
@@ -96,14 +104,14 @@ pub fn block_to_vedirect(block: &Block) -> VEDirectBlock {
                 let error = num::FromPrimitive::from_u8(value_name.parse::<u8>().unwrap_or(0));
                 match error {
                     Some(state) => data.error_state = state,
-                    None => error!("Error converting error to value.")
+                    None => error!("Error converting ERR to value.")
                 }
             }
             "CS" => {
                 let cs = num::FromPrimitive::from_u8(value_name.parse::<u8>().unwrap_or(0));
                 match cs {
                     Some(state) => data.converter_state = state,
-                    None => error!("Error converting error to value.")
+                    None => error!("Error converting CS to value.")
                 }
             }
             "BMV" => { unimplemented!() }
@@ -115,12 +123,24 @@ pub fn block_to_vedirect(block: &Block) -> VEDirectBlock {
             "SER#" => { data.serial = value_name.to_string(); }
             "HSDS" => { data.day_sequence_number = value_name.parse::<usize>().unwrap_or(0) }
             "MODE" => {
-                unimplemented!()
+                let cs = num::FromPrimitive::from_u8(value_name.parse::<u8>().unwrap_or_default());
+                match cs {
+                    Some(state) => data.mode = state,
+                    None => error!("Error converting MODE to value.")
+                }
             }
-            "AC_OUT_V" => { unimplemented!() }
-            "AC_OUT_I" => { unimplemented!() }
-            "AC_OUT_S" => { unimplemented!() }
-            "WARN" => { unimplemented!() }
+            "AC_OUT_V" => { 
+                data.ac_out_v = value_name.parse::<i32>().unwrap_or(0) as f32 / 100.0;
+             }
+            "AC_OUT_I" => { 
+                data.ac_out_i = value_name.parse::<i32>().unwrap_or(0) as f32 / 10.0;
+             }
+            "AC_OUT_S" => { 
+                data.ac_out_s = value_name.parse::<i32>().unwrap_or(0) as f32 / 10.0;
+             }
+            "WARN" => { 
+                data.warn_reason = value_name.parse::<u32>().unwrap_or_default().into();
+             }
             "MPPT" => {
                 let mppt = num::FromPrimitive::from_u8(value_name.parse::<u8>().unwrap_or(0));
                 match mppt {

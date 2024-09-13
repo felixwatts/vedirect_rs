@@ -1,4 +1,3 @@
-#[macro_use]
 extern crate tracing;
 
 use std::io::Read;
@@ -30,7 +29,7 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     let mut buffer = [0; 256];
     loop {
-        let read = port.read(&mut buffer);
+        let _read = port.read(&mut buffer);
         for i in buffer.iter() {
             if *i != 0 {
                 circle.push_back(*i);

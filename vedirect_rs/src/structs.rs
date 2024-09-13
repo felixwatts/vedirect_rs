@@ -1,5 +1,5 @@
 use bevy_reflect::Reflect;
-use crate::enums::{ConverterState, ErrorState, OffReason, TrackerOperationMode};
+use crate::enums::{AlarmReason, ConverterState, ErrorState, Mode, OffReason, TrackerOperationMode, WarnReason};
 use serde::Serialize;
 #[derive(Default,Debug, Serialize, Reflect, Clone)]
 pub struct VEDirectBlock {
@@ -22,4 +22,12 @@ pub struct VEDirectBlock {
     pub maxpower_today: i32,
     pub maxpower_yesterday: i32,
     pub day_sequence_number: usize,
+
+    pub relay_state: bool,
+    pub alarm_reason: AlarmReason,
+    pub mode: Mode,
+    pub ac_out_v: f32,
+    pub ac_out_i: f32,
+    pub ac_out_s: f32,
+    pub warn_reason: WarnReason
 }
