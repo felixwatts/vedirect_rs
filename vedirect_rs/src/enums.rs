@@ -71,6 +71,7 @@ fn test_alarm_reason() {
     assert_eq!(true, subject.includes_reason(AlarmReason::OVERLOAD));
     assert_eq!(true, subject.includes_reason(AlarmReason::LOW_TEMPERATURE));
     assert_eq!(false, subject.includes_reason(AlarmReason::SHORT_CIRCUIT));
+    assert_eq!("LOW_TEMPERATURE | OVERLOAD", subject.to_string());
 }
 
 #[derive(Default, StrumDisplay, FromPrimitive, Debug, Serialize, Reflect, Clone)]
