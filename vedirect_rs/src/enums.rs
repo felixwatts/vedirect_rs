@@ -1,3 +1,4 @@
+use std::fmt::Display;
 use bevy_reflect::Reflect;
 use num_derive::FromPrimitive;
 use thiserror::Error;
@@ -24,6 +25,35 @@ impl AlarmReason{
 
     pub fn includes_reason(&self, reason: u32) -> bool {
         (self.0 & reason) > 0
+    }
+}
+
+impl Display for AlarmReason {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let mut list_is_empty = true;
+        let mut append = |s: &str| {
+            if list_is_empty{
+                list_is_empty = false;                
+            } else {
+                write!(f, " | ")?;
+            }
+            write!(f, "{}", s)
+        };
+        if self.includes_reason(Self::LOW_VOLTAGE) { append("LOW_VOLTAGE")?; };
+        if self.includes_reason(Self::HIGH_VOLTAGE) { append("HIGH_VOLTAGE")?; };
+        if self.includes_reason(Self::LOW_SOC) { append("LOW_SOC")?; };
+        if self.includes_reason(Self::LOW_STARTER_VOLTAGE) { append("LOW_STARTER_VOLTAGE")?; };
+        if self.includes_reason(Self::LOW_TEMPERATURE) { append("LOW_TEMPERATURE")?; };
+        if self.includes_reason(Self::HIGH_TEMPERATURE) { append("HIGH_TEMPERATURE")?; };
+        if self.includes_reason(Self::MID_VOLTAGE) { append("MID_VOLTAGE")?; };
+        if self.includes_reason(Self::OVERLOAD) { append("OVERLOAD")?; };
+        if self.includes_reason(Self::DC_RIPPLE) { append("DC_RIPPLE")?; };
+        if self.includes_reason(Self::LOW_VAC_OUT) { append("LOW_VAC_OUT")?; };
+        if self.includes_reason(Self::HIGH_VAC_OUT) { append("HIGH_VAC_OUT")?; };
+        if self.includes_reason(Self::SHORT_CIRCUIT) { append("SHORT_CIRCUIT")?; };
+        if self.includes_reason(Self::BMS_LOCKOUT) { append("BMS_LOCKOUT")?; };
+
+        Ok(())
     }
 }
 
