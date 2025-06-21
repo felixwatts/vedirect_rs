@@ -16,13 +16,13 @@ use crate::ve_direct_parsing::block_to_vedirect;
 
 
 pub fn extract_blocks(input: &[u8]) -> Result<Vec<Block>, ExtractError> {
-    let (adj_input, _) = match take_until::<_, _, nom::error::Error<&[u8]>>("\r\n".as_bytes())(input) {
+    let (_, adj_input) = match take_until::<_, _, nom::error::Error<&[u8]>>("\r\n".as_bytes())(input) {
         Ok((a, b)) => (a, b),
         Err(e) => {
             match e {
                 Err::Incomplete(_) => { return Err(ExtractError::Incomplete); }
-                Err::Error(_) => { return Err(ExtractError::NoMatch); }
-                Err::Failure(_) => { return Err(ExtractError::Failure); }
+                Err::Error(e) => { return Err(ExtractError::PassThrough(format!("{:?}", e.code))); }
+                Err::Failure(e) => { return Err(ExtractError::PassThrough(format!("{:?}", e.code))); }
             }
         }
     };
